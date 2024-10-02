@@ -1,41 +1,50 @@
 package fr.barbebroux.rendezvous.bdd;
 
-import fr.barbebroux.rendezvous.reservation.Calendrier;
-import fr.barbebroux.rendezvous.reservation.Creneau;
-import fr.barbebroux.rendezvous.reservation.Praticien;
-import io.cucumber.java.PendingException;
+import fr.barbebroux.rendezvous.reservation.port.Calendrier;
+import fr.barbebroux.rendezvous.reservation.model.Creneau;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.fr.Alors;
-import io.cucumber.java.fr.Etantdonnéque;
+import io.cucumber.java.fr.Etantdonné;
 import io.cucumber.java.fr.Lorsque;
+import io.cucumber.spring.CucumberContextConfiguration;
+import org.junit.platform.suite.api.IncludeEngines;
+import org.junit.platform.suite.api.SelectClasspathResource;
+import org.junit.platform.suite.api.Suite;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Suite
+@IncludeEngines("cucumber")
+@SelectClasspathResource("fr/barbebroux/rendezvous")
+@CucumberContextConfiguration
+@SpringBootTest
 public class PriseDeRendezVousSteps {
 
-    private Praticien blandine;
+    @Autowired
+    private Calendrier calendrier;
 
-    @Etantdonnéque("Blandine a définit {int} créneaux disponibles")
-    public void blandineADéfinitCréneauxDisponibles(int nombreDeCreneau) {
-        Calendrier calendrier = new Calendrier();
-        Creneau creneau1 = new Creneau("2024-10-08T10:00");
-        Creneau creneau2 = new Creneau("2024-10-08T11:00");
-        Creneau creneau3 = new Creneau("2024-10-08T12:00");
-        calendrier.ajouterCreneauDisponible(creneau1);
-        calendrier.ajouterCreneauDisponible(creneau2);
-        calendrier.ajouterCreneauDisponible(creneau3);
-        blandine = new Praticien(calendrier);
-        throw new PendingException();
+
+    @Etantdonné("un calendrier avec des créneaux disponibles")
+    public void unCalendrierAvecCréneauxDisponibles(DataTable dates) {
+        List<String> creneauxDisponibles = dates.asList(String.class);
+        for (String creneau : creneauxDisponibles) {
+            calendrier.ajouterCreneauDisponible(new Creneau(creneau));
+        }
     }
 
-    @Lorsque("Romain choisit un créneaux")
-    public void romainChoisitUnCréneaux() {
-        Creneau creneau = new Creneau("2024-10-08T11:00");
-        blandine.reserverRendezVous(creneau);
+    @Lorsque("Romain choisit le créneau {string}")
+    public void romainChoisitUnCréneaux(String date) {
+        Creneau creneau = new Creneau(date);
+        calendrier.reserverRendezVous(creneau);
     }
 
-    @Alors("Le créneau ne doit plus apparaître dans la liste")
-    public void leCréneauNeDoitPlusApparaîtreDansLaListe() {
-        Creneau creneau = new Creneau("2024-10-08T11:00");
-        assertThat(blandine.isCreneauDisponible(creneau)).isFalse();
+    @Alors("Le créneau {string} n'est plus disponible")
+    public void leCréneauNeDoitPlusApparaîtreDansLaListe(String date) {
+        Creneau creneau = new Creneau(date);
+        assertThat(calendrier.isCreneauDisponible(creneau)).isFalse();
     }
 }
