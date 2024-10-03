@@ -14,15 +14,15 @@ public class InMemoryCalendrier implements Calendrier {
     private final Set<Creneau> creneaux = new HashSet<>();
 
     public InMemoryCalendrier() {
-        creneaux.add(new Creneau("2024-10-02T08:00"));
-        creneaux.add(new Creneau("2024-10-02T09:00"));
-        creneaux.add(new Creneau("2024-10-02T10:00"));
-        creneaux.add(new Creneau("2024-10-02T11:00"));
-        creneaux.add(new Creneau("2024-10-02T12:00"));
-        creneaux.add(new Creneau("2024-10-02T14:00"));
-        creneaux.add(new Creneau("2024-10-02T15:00"));
-        creneaux.add(new Creneau("2024-10-02T16:00"));
-        creneaux.add(new Creneau("2024-10-02T17:00"));
+        creneaux.add(new Creneau("2024-10-02", "08:00"));
+        creneaux.add(new Creneau("2024-10-02", "09:00"));
+        creneaux.add(new Creneau("2024-10-02", "10:00"));
+        creneaux.add(new Creneau("2024-10-02", "11:00"));
+        creneaux.add(new Creneau("2024-10-02", "12:00"));
+        creneaux.add(new Creneau("2024-10-02", "14:00"));
+        creneaux.add(new Creneau("2024-10-02", "15:00"));
+        creneaux.add(new Creneau("2024-10-02", "16:00"));
+        creneaux.add(new Creneau("2024-10-02", "17:00"));
 
     }
 

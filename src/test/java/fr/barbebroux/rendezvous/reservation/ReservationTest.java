@@ -15,11 +15,11 @@ class ReservationTest {
     void doitRetournerFalseQuandLeCreneauNestPasDisponible() {
         // GIVEN
         Reservation reservation = new Reservation(new InMemoryCalendrier());
-        Creneau creneauDisponible = new Creneau("2024-10-02T08:00");
+        Creneau creneauDisponible = new Creneau("2024-10-02", "08:00");
         reservation.ajouterUnCreneauDisponible(creneauDisponible);
 
         // WHEN
-        Creneau creneau = new Creneau("2024-10-05T10:00");
+        Creneau creneau = new Creneau("2024-10-05", "10:00");
 
         // THEN
         assertThat(reservation.prendreRendezVous(creneau)).isFalse();
@@ -29,11 +29,11 @@ class ReservationTest {
     void doitRetournerTrueQuandLeCreneauEstDisponible() {
         // GIVEN
         Reservation reservation = new Reservation(new InMemoryCalendrier());
-        Creneau creneauDisponible = new Creneau("2024-10-02T08:00");
+        Creneau creneauDisponible = new Creneau("2024-10-02", "08:00");
         reservation.ajouterUnCreneauDisponible(creneauDisponible);
 
         // WHEN
-        Creneau creneau = new Creneau("2024-10-02T08:00");
+        Creneau creneau = new Creneau("2024-10-02","08:00");
 
         // THEN
         assertThat(reservation.prendreRendezVous(creneau)).isTrue();
@@ -43,12 +43,12 @@ class ReservationTest {
     void doitRetournerFalseQuandLeCreneauAEteReserve() {
         // GIVEN
         Reservation reservation = new Reservation(new InMemoryCalendrier());
-        reservation.ajouterUnCreneauDisponible(new Creneau("2024-10-02T08:00"));
-        reservation.ajouterUnCreneauDisponible(new Creneau("2024-10-02T09:00"));
-        reservation.ajouterUnCreneauDisponible(new Creneau("2024-10-02T010:00"));
+        reservation.ajouterUnCreneauDisponible(new Creneau("2024-10-02","08:00"));
+        reservation.ajouterUnCreneauDisponible(new Creneau("2024-10-02", "09:00"));
+        reservation.ajouterUnCreneauDisponible(new Creneau("2024-10-02","010:00"));
 
         // WHEN
-        Creneau creneau = new Creneau("2024-10-02T09:00");
+        Creneau creneau = new Creneau("2024-10-02","09:00");
         reservation.prendreRendezVous(creneau);
 
         // THEN
