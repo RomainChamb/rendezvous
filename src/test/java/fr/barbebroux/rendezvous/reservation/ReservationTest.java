@@ -54,5 +54,4 @@ class ReservationTest {
         // THEN
         assertThat(reservation.prendreRendezVous(creneau)).isFalse();
     }
-
 }

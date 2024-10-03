@@ -42,20 +42,23 @@ public class PriseDeRendezVousSteps {
         }
     }
 
-    @Lorsque("Romain choisit le créneau {string} à {string}")
+    @Lorsque("Romain choisit le créneau {word} à {word}")
     public void romainChoisitUnCréneaux(String date, String heure) {
         Creneau creneau = new Creneau(date, heure);
         reservation.prendreRendezVous(creneau);
     }
 
-    @Alors("Le créneau {string} à {string} n'est plus disponible")
+    @Alors("Le créneau {word} à {word} n'est plus disponible")
     public void leCréneauNeDoitPlusApparaîtreDansLaListe(String date, String heure) {
         Creneau creneau = new Creneau(date, heure);
         assertThat(reservation.isCreneauDisponible(creneau)).isFalse();
     }
 
-    @Alors("Le calendier de Romain contient un rendez-vous le {string} à {string}")
-    public void leCalendierDeRomainContientUnRendezVousLeÀ(String date, String heure) {
+    @Alors("Le calendier de {word} contient un rendez-vous le {word} à {word}")
+    public void leCalendierDeRomainContientUnRendezVousLeÀ(String nomDuPatient, String date, String heure) {
+        Creneau creneau = new Creneau(date, heure);
+        reservation.prendreRendezVous(creneau);
+        assertThat(reservation.isCreneauReserve(nomDuPatient,creneau)).isTrue();
         throw new PendingException();
     }
 }

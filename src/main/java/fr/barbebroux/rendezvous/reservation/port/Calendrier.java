@@ -11,4 +11,6 @@ public interface Calendrier {
     boolean reserverRendezVous(Creneau creneau);
 
     boolean isCreneauDisponible(Creneau creneau);
+
+    boolean isCreneauReserve(String nomDuPatient, Creneau creneau);
 }

@@ -40,4 +40,9 @@ public class InMemoryCalendrier implements Calendrier {
     public boolean isCreneauDisponible(Creneau creneau) {
         return creneaux.contains(creneau);
     }
+
+    @Override
+    public boolean isCreneauReserve(String nomDuPatient, Creneau creneau) {
+        return false;
+    }
 }

@@ -26,4 +26,8 @@ public class Reservation {
     public boolean isCreneauDisponible(Creneau creneau) {
         return calendrier.isCreneauDisponible(creneau);
     }
+
+    public boolean isCreneauReserve(String nomDuPatient, Creneau creneau) {
+        return calendrier.isCreneauReserve(nomDuPatient, creneau);
+    }
 }
