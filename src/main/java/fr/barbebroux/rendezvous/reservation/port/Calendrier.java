@@ -6,9 +6,9 @@ import fr.barbebroux.rendezvous.reservation.model.Creneau;
 
 public interface Calendrier {
 
-    public boolean ajouterCreneauDisponible(Creneau creneau);
+    boolean ajouterCreneauDisponible(Creneau creneau);
 
-    public boolean reserverRendezVous(Creneau creneau);
+    boolean reserverRendezVous(Creneau creneau);
 
-    public boolean isCreneauDisponible(Creneau creneau);
+    boolean isCreneauDisponible(Creneau creneau);
 }
