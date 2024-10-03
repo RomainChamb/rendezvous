@@ -22,4 +22,8 @@ public class Reservation {
     public boolean prendreRendezVous(Creneau creneau) {
         return calendrier.reserverRendezVous(creneau);
     }
+
+    public boolean isCreneauDisponible(Creneau creneau) {
+        return calendrier.isCreneauDisponible(creneau);
+    }
 }

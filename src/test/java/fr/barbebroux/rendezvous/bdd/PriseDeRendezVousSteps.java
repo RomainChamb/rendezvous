@@ -1,9 +1,9 @@
 package fr.barbebroux.rendezvous.bdd;
 
-import fr.barbebroux.rendezvous.reservation.port.Calendrier;
 import fr.barbebroux.rendezvous.reservation.model.Creneau;
-import io.cucumber.datatable.DataTable;
+import fr.barbebroux.rendezvous.reservation.service.Reservation;
 import io.cucumber.java.DataTableType;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Etantdonné;
 import io.cucumber.java.fr.Lorsque;
@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PriseDeRendezVousSteps {
 
     @Autowired
-    private Calendrier calendrier;
+    private Reservation reservation;
 
     @DataTableType
     public Creneau defineCreneau(Map<String, String> entry) {
@@ -38,19 +38,24 @@ public class PriseDeRendezVousSteps {
     public void unCalendrierAvecCréneauxDisponibles(List<Creneau> creneauxDisponibles) {
         //List<String> creneauxDisponibles = dates.asList(String.class);
         for (Creneau creneau : creneauxDisponibles) {
-            calendrier.ajouterCreneauDisponible(creneau);
+            reservation.ajouterUnCreneauDisponible(creneau);
         }
     }
 
     @Lorsque("Romain choisit le créneau {string} à {string}")
     public void romainChoisitUnCréneaux(String date, String heure) {
         Creneau creneau = new Creneau(date, heure);
-        calendrier.reserverRendezVous(creneau);
+        reservation.prendreRendezVous(creneau);
     }
 
     @Alors("Le créneau {string} à {string} n'est plus disponible")
     public void leCréneauNeDoitPlusApparaîtreDansLaListe(String date, String heure) {
         Creneau creneau = new Creneau(date, heure);
-        assertThat(calendrier.isCreneauDisponible(creneau)).isFalse();
+        assertThat(reservation.isCreneauDisponible(creneau)).isFalse();
+    }
+
+    @Alors("Le calendier de Romain contient un rendez-vous le {string} à {string}")
+    public void leCalendierDeRomainContientUnRendezVousLeÀ(String date, String heure) {
+        throw new PendingException();
     }
 }
