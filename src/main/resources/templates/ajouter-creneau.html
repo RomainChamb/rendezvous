@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<div>
+    <h1>Ajouter un créneau:</h1>
+    <form action="#" th:action="@{/ajouter-creneau}" th:object="${creneauDTO}" method="post">
+        <fieldset>
+            <input type="submit" id="submitButton" th:value="Ajouter">
+            <div>
+                <label>Date: </label>
+                <input type="text" id="date" th:field="*{date}">
+            </div>
+            <div>
+                <label>Heure de début: </label>
+                <input type="text" id="heureDebut" th:field="*{heureDebut}">
+            </div>
+            <div>
+                <label>Heure de fin: </label>
+                <input type="text" id="heureFin" th:field="*{heureFin}">
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+</html>

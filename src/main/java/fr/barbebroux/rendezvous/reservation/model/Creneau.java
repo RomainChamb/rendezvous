@@ -5,25 +5,31 @@ import java.util.Objects;
 public class Creneau {
 
     private final String date;
-    private final String heure;
+    private final String heureDebut;
+    private final String heureFin;
 
-    public Creneau(String date, String heure) {
+    public Creneau() {
+        this("","","");
+    }
+
+    public Creneau(String date, String heureDebut, String heureFin) {
         this.date = date;
-        this.heure = heure;
+        this.heureDebut = heureDebut;
+        this.heureFin = heureFin;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (!(o instanceof Creneau creneau))
             return false;
-        Creneau creneau = (Creneau) o;
-        return Objects.equals(date, creneau.date) && Objects.equals(heure, creneau.heure);
+        return Objects.equals(date, creneau.date) && Objects.equals(heureDebut, creneau.heureDebut) && Objects.equals(
+                heureFin, creneau.heureFin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, heure);
+        return Objects.hash(date, heureDebut, heureFin);
     }
 }
