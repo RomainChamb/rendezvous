@@ -1,21 +1,31 @@
 package fr.barbebroux.rendezvous.reservation.model;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class Creneau {
+public record Creneau (LocalDate date, LocalTime startTime, LocalTime endTime) {
 
-    private final String date;
-    private final String heureDebut;
-    private final String heureFin;
-
-    public Creneau() {
-        this("","","");
+    public Creneau(String date, String startTime, String endTime) {
+        this(
+                LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HH:mm")),
+                LocalTime.parse(endTime, DateTimeFormatter.ofPattern("HH:mm"))
+        );
     }
 
-    public Creneau(String date, String heureDebut, String heureFin) {
+    public Creneau(LocalDate date, LocalTime startTime, LocalTime endTime) {
+        if(endTime.isBefore(startTime)) throw new IllegalArgumentException("The endTime should be after the startTime");
         this.date = date;
-        this.heureDebut = heureDebut;
-        this.heureFin = heureFin;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    @Override
+    public LocalDate date() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.parse(date.format(formatter), formatter);
     }
 
     @Override
@@ -24,12 +34,12 @@ public class Creneau {
             return true;
         if (!(o instanceof Creneau creneau))
             return false;
-        return Objects.equals(date, creneau.date) && Objects.equals(heureDebut, creneau.heureDebut) && Objects.equals(
-                heureFin, creneau.heureFin);
+        return Objects.equals(date, creneau.date) && Objects.equals(startTime, creneau.startTime) && Objects.equals(
+                endTime, creneau.endTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, heureDebut, heureFin);
+        return Objects.hash(date, startTime, endTime);
     }
 }

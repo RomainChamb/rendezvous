@@ -15,8 +15,8 @@
         </tr>
     <tr th:each="creneau : ${creneaux}">
         <td><span th:text="${creneau.date}">Date</span></td>
-        <td><span th:text="${creneau.heureDebut}">Heure de début</span></td>
-        <td><span th:text="${creneau.heureFin}">Heure de fin</span></td>
+        <td><span th:text="${creneau.startTime}">Start Time</span></td>
+        <td><span th:text="${creneau.endTime}">End Time</span></td>
     </tr>
     </tbody>
 </table>
