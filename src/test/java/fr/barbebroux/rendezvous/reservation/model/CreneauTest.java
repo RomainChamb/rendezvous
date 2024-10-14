@@ -100,6 +100,21 @@ class CreneauTest {
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("The endTime should be after the startTime");
         }
+
+        @Test
+        void shouldThrowAnExceptionWhenEndTimeEgalsStartTime() {
+            // GIVEN
+            String date = "20/10/2024";
+            String startTime = "10:00";
+            String endTime = "10:00";
+
+            // WHEN
+            Throwable thrown = catchThrowable( () -> new Creneau(date, startTime, endTime));
+
+            // THEN
+            assertThat(thrown).isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("The endTime should be after the startTime");
+        }
     }
 
 }

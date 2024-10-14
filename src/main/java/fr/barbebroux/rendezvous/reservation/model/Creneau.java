@@ -16,7 +16,7 @@ public record Creneau (LocalDate date, LocalTime startTime, LocalTime endTime) {
     }
 
     public Creneau(LocalDate date, LocalTime startTime, LocalTime endTime) {
-        if(endTime.isBefore(startTime)) throw new IllegalArgumentException("The endTime should be after the startTime");
+        if(checkTimeChronology(startTime, endTime)) throw new IllegalArgumentException("The endTime should be after the startTime");
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -26,6 +26,10 @@ public record Creneau (LocalDate date, LocalTime startTime, LocalTime endTime) {
     public LocalDate date() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return LocalDate.parse(date.format(formatter), formatter);
+    }
+
+    private boolean checkTimeChronology(LocalTime startTime, LocalTime endTime) {
+        return endTime.isBefore(startTime) || endTime.equals(startTime);
     }
 
     @Override
