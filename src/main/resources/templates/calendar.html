@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Start time</th>
+            <th>End time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:if="${timeSlots.empty}">
+            <td colspan="2">Pas de créneaux disponible</td>
+        </tr>
+    <tr th:each="timeSlot : ${timeSlots}">
+        <td><span th:text="${timeSlot.date}">Date</span></td>
+        <td><span th:text="${timeSlot.startTime}">Start Time</span></td>
+        <td><span th:text="${timeSlot.endTime}">End Time</span></td>
+    </tr>
+    </tbody>
+</table>
+
+</html>

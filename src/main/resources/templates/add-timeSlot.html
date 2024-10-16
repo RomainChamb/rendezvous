@@ -2,8 +2,8 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <div>
-    <h1>Ajouter un créneau:</h1>
-    <form action="#" th:action="@{/ajouter-creneau}" th:object="${creneauDTO}" method="post">
+    <h1>Add a time slot:</h1>
+    <form action="#" th:action="@{/add-timeSlot}" th:object="${timeSlotDTO}" method="post">
         <fieldset>
             <input type="submit" id="submitButton" th:value="Ajouter">
             <div>
@@ -15,7 +15,7 @@
                 <input type="text" id="heureDebut" th:field="*{startTime}">
             </div>
             <div>
-                <label>end Time: </label>
+                <label>End Time: </label>
                 <input type="text" id="heureFin" th:field="*{endTime}">
             </div>
         </fieldset>

@@ -5,23 +5,23 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class CreneauDTO {
+public class TimeSlotDTO {
 
     private String date;
     private String startTime;
     private String endTime;
 
-    public CreneauDTO() {
+    public TimeSlotDTO() {
         this("","","");
     }
 
-    public CreneauDTO(String date, String startTime, String endTime) {
+    public TimeSlotDTO(String date, String startTime, String endTime) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public CreneauDTO(LocalDate date, LocalTime startTime, LocalTime endTime) {
+    public TimeSlotDTO(LocalDate date, LocalTime startTime, LocalTime endTime) {
         this(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), startTime.toString(), endTime.toString());
     }
 
@@ -55,7 +55,7 @@ public class CreneauDTO {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof CreneauDTO that))
+        if (!(o instanceof TimeSlotDTO that))
             return false;
         return Objects.equals(date, that.date) && Objects.equals(startTime, that.startTime) && Objects.equals(endTime, that.endTime);
     }

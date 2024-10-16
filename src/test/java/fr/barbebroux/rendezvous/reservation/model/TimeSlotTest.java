@@ -9,9 +9,8 @@ import java.time.format.DateTimeParseException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.junit.jupiter.api.Assertions.*;
 
-class CreneauTest {
+class TimeSlotTest {
 
     @Nested
     class SuccessWhen {
@@ -24,13 +23,13 @@ class CreneauTest {
             String endTime = "11:00";
 
             // WHEN
-            Creneau creneau = new Creneau(date, startTime, endTime);
+            TimeSlot timeSlot = new TimeSlot(date, startTime, endTime);
 
             // THEN
-            assertThat(creneau).isNotNull();
-            assertThat(creneau.date()).isEqualTo(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-            assertThat(creneau.startTime()).isEqualTo(startTime);
-            assertThat(creneau.endTime()).isEqualTo(endTime);
+            assertThat(timeSlot).isNotNull();
+            assertThat(timeSlot.date()).isEqualTo(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            assertThat(timeSlot.startTime()).isEqualTo(startTime);
+            assertThat(timeSlot.endTime()).isEqualTo(endTime);
         }
     }
 
@@ -45,7 +44,7 @@ class CreneauTest {
             String heureFin = "11:00";
 
             // WHEN
-            Throwable thrown = catchThrowable( () -> new Creneau(date, heureDebut, heureFin));
+            Throwable thrown = catchThrowable( () -> new TimeSlot(date, heureDebut, heureFin));
 
             // THEN
             assertThat(thrown)
@@ -61,7 +60,7 @@ class CreneauTest {
             String heureFin = "11:00";
 
             // WHEN
-            Throwable thrown = catchThrowable( () -> new Creneau(date, startTime, heureFin));
+            Throwable thrown = catchThrowable( () -> new TimeSlot(date, startTime, heureFin));
 
             // THEN
             assertThat(thrown)
@@ -77,7 +76,7 @@ class CreneauTest {
             String endTime = "11H00";
 
             // WHEN
-            Throwable thrown = catchThrowable( () -> new Creneau(date, startTime, endTime));
+            Throwable thrown = catchThrowable( () -> new TimeSlot(date, startTime, endTime));
 
             // THEN
             assertThat(thrown)
@@ -93,7 +92,7 @@ class CreneauTest {
             String endTime = "09:00";
 
             // WHEN
-            Throwable thrown = catchThrowable( () -> new Creneau(date, startTime, endTime));
+            Throwable thrown = catchThrowable( () -> new TimeSlot(date, startTime, endTime));
 
             // THEN
             assertThat(thrown)
@@ -109,7 +108,7 @@ class CreneauTest {
             String endTime = "10:00";
 
             // WHEN
-            Throwable thrown = catchThrowable( () -> new Creneau(date, startTime, endTime));
+            Throwable thrown = catchThrowable( () -> new TimeSlot(date, startTime, endTime));
 
             // THEN
             assertThat(thrown).isInstanceOf(IllegalArgumentException.class)

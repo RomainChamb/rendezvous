@@ -5,9 +5,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public record Creneau (LocalDate date, LocalTime startTime, LocalTime endTime) {
+public record TimeSlot(LocalDate date, LocalTime startTime, LocalTime endTime) {
 
-    public Creneau(String date, String startTime, String endTime) {
+    public TimeSlot(String date, String startTime, String endTime) {
         this(
                 LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HH:mm")),
@@ -15,7 +15,7 @@ public record Creneau (LocalDate date, LocalTime startTime, LocalTime endTime) {
         );
     }
 
-    public Creneau(LocalDate date, LocalTime startTime, LocalTime endTime) {
+    public TimeSlot(LocalDate date, LocalTime startTime, LocalTime endTime) {
         if(checkTimeChronology(startTime, endTime)) throw new IllegalArgumentException("The endTime should be after the startTime");
         this.date = date;
         this.startTime = startTime;
@@ -36,10 +36,10 @@ public record Creneau (LocalDate date, LocalTime startTime, LocalTime endTime) {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof Creneau creneau))
+        if (!(o instanceof TimeSlot timeSlot))
             return false;
-        return Objects.equals(date, creneau.date) && Objects.equals(startTime, creneau.startTime) && Objects.equals(
-                endTime, creneau.endTime);
+        return Objects.equals(date, timeSlot.date) && Objects.equals(startTime, timeSlot.startTime) && Objects.equals(
+                endTime, timeSlot.endTime);
     }
 
     @Override

@@ -1,9 +1,8 @@
 package fr.barbebroux.rendezvous.reservation.service;
 
-import fr.barbebroux.rendezvous.reservation.model.Creneau;
-import fr.barbebroux.rendezvous.reservation.model.dto.CreneauDTO;
-import fr.barbebroux.rendezvous.reservation.port.CalendrierRepository;
-import fr.barbebroux.rendezvous.reservation.repository.InMemoryCalendrierRepositoryTest;
+import fr.barbebroux.rendezvous.reservation.model.dto.TimeSlotDTO;
+import fr.barbebroux.rendezvous.reservation.port.CalendarRepository;
+import fr.barbebroux.rendezvous.reservation.repository.InMemoryCalendarRepositoryTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -15,15 +14,15 @@ import java.time.format.DateTimeFormatter;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-class CalendrierServiceTest {
+class CalendarServiceTest {
 
-    private CalendrierRepository calendrierRepository;
-    private CalendrierService calendrierService;
+    private CalendarRepository calendarRepository;
+    private CalendarService calendarService;
 
     @BeforeEach
     void setUp() {
-        calendrierRepository = new InMemoryCalendrierRepositoryTest();
-        calendrierService = new CalendrierService(calendrierRepository);
+        calendarRepository = new InMemoryCalendarRepositoryTest();
+        calendarService = new CalendarService(calendarRepository);
     }
 
     @Nested
@@ -32,14 +31,14 @@ class CalendrierServiceTest {
         @Test
         void leNouveauCreneauDoitApparaîtreDansLeCalendrierApresSonAjout() {
             // GIVEN
-            CreneauDTO nouveauCreneauDTO = new CreneauDTO("12/10/2024", "10:00", "10:30");
+            TimeSlotDTO nouveauTimeSlotDTO = new TimeSlotDTO("12/10/2024", "10:00", "10:30");
 
             // WHEN
-            calendrierService.ajouterCreneau(nouveauCreneauDTO);
+            calendarService.ajouterCreneau(nouveauTimeSlotDTO);
 
             // THEN
-            assertThat(calendrierService.recupererTousLesCreneauxDisponible().size()).isEqualTo(1);
-            assertThat(calendrierService.recupererTousLesCreneauxDisponible().contains(nouveauCreneauDTO)).isTrue();
+            assertThat(calendarService.recupererTousLesCreneauxDisponible().size()).isEqualTo(1);
+            assertThat(calendarService.recupererTousLesCreneauxDisponible().contains(nouveauTimeSlotDTO)).isTrue();
         }
 
     }
@@ -50,19 +49,19 @@ class CalendrierServiceTest {
         @Test
         void doitLeverUneExceptionSiLeCreneauxEstDejaPresent() {
             // GIVEN
-            CreneauDTO creneauDTO = new CreneauDTO("12/10/2024", "10:00", "10:30");
-            calendrierService.ajouterCreneau(creneauDTO);
+            TimeSlotDTO timeSlotDTO = new TimeSlotDTO("12/10/2024", "10:00", "10:30");
+            calendarService.ajouterCreneau(timeSlotDTO);
 
             // WHEN
-            CreneauDTO nouveauCreneauDTO = new CreneauDTO("12/10/2024", "10:00", "10:30");
+            TimeSlotDTO nouveauTimeSlotDTO = new TimeSlotDTO("12/10/2024", "10:00", "10:30");
             Throwable thrown = catchThrowable(() -> {
-                calendrierService.ajouterCreneau(nouveauCreneauDTO);
+                calendarService.ajouterCreneau(nouveauTimeSlotDTO);
             });
 
             // THEN
             assertThat(thrown)
                     .isInstanceOf(RuntimeException.class)
-                    .hasMessage("Le créneau du %s de %s à %s est déjà présent dans le calendrier", nouveauCreneauDTO.getDate(), nouveauCreneauDTO.getStartTime(), nouveauCreneauDTO.getEndTime());
+                    .hasMessage("Time slot of %s from %s to %s is already present in the calendar", nouveauTimeSlotDTO.getDate(), nouveauTimeSlotDTO.getStartTime(), nouveauTimeSlotDTO.getEndTime());
         }
 
         @Test
@@ -75,11 +74,11 @@ class CalendrierServiceTest {
             LocalTime time = LocalTime.now();
             LocalTime startTime = LocalTime.parse(time.format(timeFormatter), timeFormatter);
             LocalTime endTime = LocalTime.parse(time.format(timeFormatter), timeFormatter).plusMinutes(30);
-            CreneauDTO creneauDTO = new CreneauDTO(today.minusDays(7), startTime, endTime);
+            TimeSlotDTO timeSlotDTO = new TimeSlotDTO(today.minusDays(7), startTime, endTime);
 
 
             // WHEN
-            Throwable thrown = catchThrowable(() -> calendrierService.ajouterCreneau(creneauDTO));
+            Throwable thrown = catchThrowable(() -> calendarService.ajouterCreneau(timeSlotDTO));
 
             // THEN
             assertThat(thrown)
