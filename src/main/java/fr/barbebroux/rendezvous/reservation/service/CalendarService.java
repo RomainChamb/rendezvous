@@ -23,15 +23,15 @@ public class CalendarService {
         this.calendarRepository = calendarRepository;
     }
 
-    public List<TimeSlotDTO> recupererTousLesCreneauxDisponible() {
-        return calendarRepository.recupererTousLesCreneauxDisponibles().stream().map(creneau -> new TimeSlotDTO(creneau.date(),creneau.startTime(), creneau.endTime())).collect(Collectors.toList());
+    public List<TimeSlotDTO> fetchAllAvailableTimeSlots() {
+        return calendarRepository.fetchAllAvailableTimeSlots().stream().map(creneau -> new TimeSlotDTO(creneau.date(),creneau.startTime(), creneau.endTime())).collect(Collectors.toList());
     }
 
-    public void ajouterCreneau(TimeSlotDTO timeSlotDTO) {
+    public void addNewTimeSlot(TimeSlotDTO timeSlotDTO) {
         validateChronology(timeSlotDTO);
         TimeSlot timeSlot = new TimeSlot(timeSlotDTO.getDate(), timeSlotDTO.getStartTime(), timeSlotDTO.getEndTime());
         checkExistence(timeSlot);
-        calendarRepository.ajouterCreneauDisponible(timeSlot);
+        calendarRepository.addNewTimeSlot(timeSlot);
     }
 
     private void validateChronology(TimeSlotDTO timeSlotDTO) {
@@ -43,11 +43,11 @@ public class CalendarService {
 
     private void checkExistence(TimeSlot timeSlot) {
         if(calendarRepository.creneauExiste(timeSlot)) {
-            throw new RuntimeException(formateMessageCreneauDejaExistant(timeSlot));
+            throw new RuntimeException(formateMessageAllReadyExistingTimeSlot(timeSlot));
         }
     }
 
-    private String formateMessageCreneauDejaExistant(TimeSlot timeSlot) {
+    private String formateMessageAllReadyExistingTimeSlot(TimeSlot timeSlot) {
         return String.format("Time slot of %s from %s to %s is already present in the calendar", timeSlot.date().format(formatter),
                 timeSlot.startTime(), timeSlot.endTime());
     }

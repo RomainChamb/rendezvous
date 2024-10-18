@@ -20,7 +20,7 @@ public class CalendarController {
 
     @GetMapping("/calendar")
     public String recupererTousLesCreneauxDisponibles(Model model) {
-        model.addAttribute("timeSlots", calendarService.recupererTousLesCreneauxDisponible());
+        model.addAttribute("timeSlots", calendarService.fetchAllAvailableTimeSlots());
         return "calendar";
     }
 
@@ -32,7 +32,7 @@ public class CalendarController {
 
     @PostMapping("/add-timeSlot")
     public String ajouterUnCreneau(TimeSlotDTO timeSlotDTO, Model model) {
-        calendarService.ajouterCreneau(timeSlotDTO);
+        calendarService.addNewTimeSlot(timeSlotDTO);
         model.addAttribute("timeSlot", timeSlotDTO);
         return "success";
     }

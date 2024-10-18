@@ -16,7 +16,7 @@ class TimeSlotTest {
     class SuccessWhen {
 
         @Test
-        void shouldCreateANewCreneau() {
+        void shouldCreateANewTimeSlot() {
             // GIVEN
             String date = "20/10/2024";
             String startTime = "10:00";

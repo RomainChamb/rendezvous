@@ -11,12 +11,12 @@ public class InMemoryCalendarRepositoryTest implements CalendarRepository {
     private final List<TimeSlot> timeSlots = new ArrayList<>();
 
     @Override
-    public List<TimeSlot> recupererTousLesCreneauxDisponibles() {
+    public List<TimeSlot> fetchAllAvailableTimeSlots() {
         return timeSlots;
     }
 
     @Override
-    public void ajouterCreneauDisponible(TimeSlot timeSlot) {
+    public void addNewTimeSlot(TimeSlot timeSlot) {
         timeSlots.add(timeSlot);
     }
 

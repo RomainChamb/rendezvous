@@ -29,16 +29,16 @@ class CalendarServiceTest {
     class SuccessWhen {
 
         @Test
-        void leNouveauCreneauDoitApparaîtreDansLeCalendrierApresSonAjout() {
+        void newTimeSlotShouldAppearInCalendarAfterCreation() {
             // GIVEN
             TimeSlotDTO nouveauTimeSlotDTO = new TimeSlotDTO("12/10/2024", "10:00", "10:30");
 
             // WHEN
-            calendarService.ajouterCreneau(nouveauTimeSlotDTO);
+            calendarService.addNewTimeSlot(nouveauTimeSlotDTO);
 
             // THEN
-            assertThat(calendarService.recupererTousLesCreneauxDisponible().size()).isEqualTo(1);
-            assertThat(calendarService.recupererTousLesCreneauxDisponible().contains(nouveauTimeSlotDTO)).isTrue();
+            assertThat(calendarService.fetchAllAvailableTimeSlots().size()).isEqualTo(1);
+            assertThat(calendarService.fetchAllAvailableTimeSlots().contains(nouveauTimeSlotDTO)).isTrue();
         }
 
     }
@@ -47,15 +47,15 @@ class CalendarServiceTest {
     class FailWhen {
 
         @Test
-        void doitLeverUneExceptionSiLeCreneauxEstDejaPresent() {
+        void shouldThrowAnExceptionIfTimeSlotIsAlreadyPresentInCalendar() {
             // GIVEN
             TimeSlotDTO timeSlotDTO = new TimeSlotDTO("12/10/2024", "10:00", "10:30");
-            calendarService.ajouterCreneau(timeSlotDTO);
+            calendarService.addNewTimeSlot(timeSlotDTO);
 
             // WHEN
             TimeSlotDTO nouveauTimeSlotDTO = new TimeSlotDTO("12/10/2024", "10:00", "10:30");
             Throwable thrown = catchThrowable(() -> {
-                calendarService.ajouterCreneau(nouveauTimeSlotDTO);
+                calendarService.addNewTimeSlot(nouveauTimeSlotDTO);
             });
 
             // THEN
@@ -78,7 +78,7 @@ class CalendarServiceTest {
 
 
             // WHEN
-            Throwable thrown = catchThrowable(() -> calendarService.ajouterCreneau(timeSlotDTO));
+            Throwable thrown = catchThrowable(() -> calendarService.addNewTimeSlot(timeSlotDTO));
 
             // THEN
             assertThat(thrown)

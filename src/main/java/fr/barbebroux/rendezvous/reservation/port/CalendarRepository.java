@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface CalendarRepository {
 
-    List<TimeSlot> recupererTousLesCreneauxDisponibles();
+    List<TimeSlot> fetchAllAvailableTimeSlots();
 
-    void ajouterCreneauDisponible(TimeSlot timeSlot);
+    void addNewTimeSlot(TimeSlot timeSlot);
 
     boolean creneauExiste(TimeSlot timeSlot);
 }
