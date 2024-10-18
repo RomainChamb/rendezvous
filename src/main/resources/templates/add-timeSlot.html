@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
-<div>
-    <h1>Add a time slot:</h1>
-    <form action="#" th:action="@{/add-timeSlot}" th:object="${timeSlotDTO}" method="post">
-        <fieldset>
-            <input type="submit" id="submitButton" th:value="Ajouter">
-            <div>
-                <label>Date: </label>
-                <input type="text" id="date" th:field="*{date}">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a new time slot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <form th:action="@{/add-timeSlot}" th:object="${timeSlotDTO}" method="post">
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="text" class="form-control" id="date" th:field="*{date}" placeholder="date (format dd/MM/yyyy)" required>
             </div>
-            <div>
-                <label>Start Time: </label>
-                <input type="text" id="heureDebut" th:field="*{startTime}">
+            <div class="form-group">
+                <label for="date">Start time</label>
+                <input type="text" class="form-control" id="startTime" th:field="*{startTime}" placeholder="start time (format hh:mm)" required>
             </div>
-            <div>
-                <label>End Time: </label>
-                <input type="text" id="heureFin" th:field="*{endTime}">
+            <div class="form-group">
+                <label for="date">End time</label>
+                <input type="text" class="form-control" id="endTime" th:field="*{endTime}" placeholder="end time (format hh:mm)" required>
             </div>
-        </fieldset>
-    </form>
-</div>
+            <butto type="submit" class="btn btn-primary">Add new time slot</butto>
+        </form>
+    </div>
+</body>
 
 </html>
