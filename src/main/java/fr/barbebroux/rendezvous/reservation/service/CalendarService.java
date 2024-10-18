@@ -24,7 +24,7 @@ public class CalendarService {
     }
 
     public List<TimeSlotDTO> fetchAllAvailableTimeSlots() {
-        return calendarRepository.fetchAllAvailableTimeSlots().stream().map(creneau -> new TimeSlotDTO(creneau.date(),creneau.startTime(), creneau.endTime())).collect(Collectors.toList());
+        return calendarRepository.fetchAllAvailableTimeSlots().stream().map(timeSlot -> new TimeSlotDTO(timeSlot.date(),timeSlot.startTime(), timeSlot.endTime())).collect(Collectors.toList());
     }
 
     public void addNewTimeSlot(TimeSlotDTO timeSlotDTO) {
@@ -32,6 +32,11 @@ public class CalendarService {
         TimeSlot timeSlot = new TimeSlot(timeSlotDTO.getDate(), timeSlotDTO.getStartTime(), timeSlotDTO.getEndTime());
         checkExistence(timeSlot);
         calendarRepository.addNewTimeSlot(timeSlot);
+    }
+
+    public void bookAppointment(TimeSlotDTO availableTimeSlot) {
+        TimeSlot timeSlotToBook = new TimeSlot(availableTimeSlot.getDate(), availableTimeSlot.getStartTime(), availableTimeSlot.getEndTime());
+        calendarRepository.bookAppointment(timeSlotToBook);
     }
 
     private void validateChronology(TimeSlotDTO timeSlotDTO) {

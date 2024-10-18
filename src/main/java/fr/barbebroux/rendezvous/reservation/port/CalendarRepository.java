@@ -11,4 +11,6 @@ public interface CalendarRepository {
     void addNewTimeSlot(TimeSlot timeSlot);
 
     boolean creneauExiste(TimeSlot timeSlot);
+
+    void bookAppointment(TimeSlot timeSlot);
 }

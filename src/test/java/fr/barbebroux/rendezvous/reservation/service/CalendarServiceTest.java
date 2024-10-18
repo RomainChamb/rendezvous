@@ -19,6 +19,10 @@ class CalendarServiceTest {
     private CalendarRepository calendarRepository;
     private CalendarService calendarService;
 
+    private LocalDate dateOfTheDay = LocalDate.now();
+
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     @BeforeEach
     void setUp() {
         calendarRepository = new InMemoryCalendarRepositoryTest();
@@ -31,7 +35,7 @@ class CalendarServiceTest {
         @Test
         void newTimeSlotShouldAppearInCalendarAfterCreation() {
             // GIVEN
-            TimeSlotDTO nouveauTimeSlotDTO = new TimeSlotDTO("12/10/2024", "10:00", "10:30");
+            TimeSlotDTO nouveauTimeSlotDTO = new TimeSlotDTO(dateOfTheDay.format(dateFormatter), "10:00", "10:30");
 
             // WHEN
             calendarService.addNewTimeSlot(nouveauTimeSlotDTO);
@@ -39,6 +43,23 @@ class CalendarServiceTest {
             // THEN
             assertThat(calendarService.fetchAllAvailableTimeSlots().size()).isEqualTo(1);
             assertThat(calendarService.fetchAllAvailableTimeSlots().contains(nouveauTimeSlotDTO)).isTrue();
+        }
+
+        @Test
+        void timeSlotShoulNotAppearInCalendarAfterAppointmentBooking() {
+            // GIVEN
+            calendarService.addNewTimeSlot(new TimeSlotDTO(dateOfTheDay.format(dateFormatter), "10:00", "10:30"));
+            calendarService.addNewTimeSlot(new TimeSlotDTO(dateOfTheDay.plusDays(1).format(dateFormatter), "10:00", "10:30"));
+            calendarService.addNewTimeSlot(new TimeSlotDTO(dateOfTheDay.plusDays(2).format(dateFormatter), "10:00", "10:30"));
+
+            TimeSlotDTO availableTimeSlot = new TimeSlotDTO(dateOfTheDay.format(dateFormatter), "10:00", "10:30");
+
+            // WHEN
+            calendarService.bookAppointment(availableTimeSlot);
+
+            //THEN
+            assertThat(calendarService.fetchAllAvailableTimeSlots().contains(availableTimeSlot)).isFalse();
+
         }
 
     }
@@ -49,11 +70,11 @@ class CalendarServiceTest {
         @Test
         void shouldThrowAnExceptionIfTimeSlotIsAlreadyPresentInCalendar() {
             // GIVEN
-            TimeSlotDTO timeSlotDTO = new TimeSlotDTO("12/10/2024", "10:00", "10:30");
+            TimeSlotDTO timeSlotDTO = new TimeSlotDTO(dateOfTheDay.format(dateFormatter), "10:00", "10:30");
             calendarService.addNewTimeSlot(timeSlotDTO);
 
             // WHEN
-            TimeSlotDTO nouveauTimeSlotDTO = new TimeSlotDTO("12/10/2024", "10:00", "10:30");
+            TimeSlotDTO nouveauTimeSlotDTO = new TimeSlotDTO(dateOfTheDay.format(dateFormatter), "10:00", "10:30");
             Throwable thrown = catchThrowable(() -> {
                 calendarService.addNewTimeSlot(nouveauTimeSlotDTO);
             });

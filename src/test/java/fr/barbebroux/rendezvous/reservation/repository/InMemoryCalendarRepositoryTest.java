@@ -9,6 +9,7 @@ import java.util.List;
 public class InMemoryCalendarRepositoryTest implements CalendarRepository {
 
     private final List<TimeSlot> timeSlots = new ArrayList<>();
+    private final List<TimeSlot> bookedTimeSlots = new ArrayList<>();
 
     @Override
     public List<TimeSlot> fetchAllAvailableTimeSlots() {
@@ -23,5 +24,11 @@ public class InMemoryCalendarRepositoryTest implements CalendarRepository {
     @Override
     public boolean creneauExiste(TimeSlot timeSlot) {
         return timeSlots.contains(timeSlot);
+    }
+
+    @Override
+    public void bookAppointment(TimeSlot timeSlot) {
+        timeSlots.remove(timeSlot);
+        bookedTimeSlots.add(timeSlot);
     }
 }
